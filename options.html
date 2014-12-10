@@ -1,0 +1,120 @@
+<!--
+YASB - Yet Another Shoe Bot
+
+Copyright (c) 2014-2015 Daniel Escobedo.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../favicon.ico">
+    <title>Yet Another Shoe Bot: Settings</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+          padding-top: 40px;
+          padding-bottom: 40px;
+          background-color: #eee;
+        }
+        .settings {
+          max-width: 330px;
+          padding: 15px;
+          margin: 0 auto;
+        }
+        .settings .heading,
+        .settings .checkbox {
+          margin-bottom: 10px;
+        }
+        .settings .form-control {
+          position: relative;
+          height: auto;
+          -webkit-box-sizing: border-box;
+             -moz-box-sizing: border-box;
+                  box-sizing: border-box;
+          padding: 10px;
+          font-size: 16px;
+          margin-bottom: 10px;
+        }
+        .settings .form-control:focus {
+          z-index: 2;
+        }
+        .footer {
+          display: block;
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 60px;
+          background-color: #f5f5f5;
+        }
+        .footer .text-muted {
+          margin: 20px 0;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="settings">
+        <h2 class="heading">YASB Settings</h2>
+        <select id="size" class="form-control" style="text-align: right;">
+        <option value>Shoe Size</option>
+          <option value="03.5">3.5</option>
+          <option value="04.0">4.0</option>
+          <option value="04.5">4.5</option>
+          <option value="05.0">5.0</option>
+          <option value="05.5">5.5</option>
+          <option value="06.0">6.0</option>
+          <option value="06.5">6.5</option>
+          <option value="07.0">7.0</option>
+          <option value="07.5">7.5</option>
+          <option value="08.0">8.0</option>
+          <option value="08.5">8.5</option>
+          <option value="09.0">9.0</option>
+          <option value="09.5">9.5</option>
+          <option value="10.0">10.0</option>
+          <option value="10.5">10.5</option>
+          <option value="11.0">11.0</option>
+          <option value="11.5">11.5</option>
+          <option value="12.0">12.0</option>
+          <option value="12.5">12.5</option>
+          <option value="13.0">13.0</option>
+          <option value="14.0">14.0</option>
+          <option value="15.0">15.0</option>
+          <option value="16.0">16.0</option>
+          <option value="17.0">17.0</option>
+          <option value="18.0">18.0</option>
+        </select>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="checkout"> Continue to <strong>CheckOut</strong> after shoe is added to cart.
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="save">Save</button>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted"><strong>Yet Another Shoe Bot.</strong> Last Updated: December 2014.</p>
+      </div>
+    </footer>
+  <script src="options.js"></script>
+  </body>
+</html>
