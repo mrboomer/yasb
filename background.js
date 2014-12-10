@@ -82,26 +82,26 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
 
 	// Adjust the way "#toggle" behaves.
 	if (request.displayAuth !== undefined) {
-
-		// Set text/colors accordingly.
-		if (!validKey()) {
+        
+        // Set text/colors accordingly.
+        if (!validKey()) {
             requestKey();
             if (!validKey()) {
-                sendResponse({enabled: !enabled});
+                sendResponse({activated: !enabled});
             } else {
-				sendResponse({enabled: enabled});
+                sendResponse({activated: enabled});
             }
         }
         
         // TODO: Make this button user-friendly. (Checks if user has selected shoe size)
         /*
         else if (localStorage.size === undefined) {
-			sendResponse({activated: enabled});
-			alert("Please select your shoe size in the settings page.");
-			chrome.tabs.create({ url: chrome.extension.getURL("options.html") });
-		}
+            sendResponse({activated: enabled});
+            alert("Please select your shoe size in the settings page.");
+            chrome.tabs.create({ url: chrome.extension.getURL("options.html") });
+        }
         */
-	}
+    }
 
     if (request.localStorage !== undefined) {
         sendResponse({localStorage: localStorage});

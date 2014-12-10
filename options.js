@@ -27,8 +27,8 @@
 /*globals saveSettings, restoreSettings, saveValue, loadValue, saveState, loadState */
 
 function saveSettings() {
-
-	saveValue("size");
+    
+    saveValue("size");
     saveState("checkout");
 
     // Alert user if the option to automatically redirect to checkout is enabled.
