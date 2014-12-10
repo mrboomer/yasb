@@ -6,6 +6,8 @@ Current supported platforms:
 
 - footlocker.com
 
+The current user interface is set so that the software may be sold, requiring an activation key to work. There will be an option to disable that feature in the future. The current user activation key is "yasb".
+
 --------------------------------------------------------------------
 This is the source code distribution of YASB. A compiled 'ready to use' version (.CRX) will be available as soon as an official project page is up.
 
