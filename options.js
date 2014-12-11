@@ -26,6 +26,14 @@
 /*jslint devel: true, sloppy: true */
 /*globals saveSettings, restoreSettings, saveValue, loadValue, saveState, loadState */
 
+// Disable the "Save" button when a shoe size selecion has not been made.
+function checkSize() {
+    if (document.getElementById("size").value == "")
+        document.getElementById("save").disabled = true;
+    else
+        document.getElementById("save").disabled = false;
+}
+
 function saveSettings() {
     
     saveValue("size");
@@ -42,9 +50,9 @@ function saveSettings() {
 function restoreSettings() {
 	loadValue("size");
 	loadState("checkout");
+    checkSize();
 }
 
-// TODO/BUG: Disable "Save" button when no real selecion has been made from the dropdown.
 function saveValue(id) {
 	localStorage[id] = document.getElementById(id).value.trim();
 }
@@ -68,4 +76,5 @@ function loadState(id) {
 }
 
 document.addEventListener('DOMContentLoaded', restoreSettings);
+document.querySelector('#size').addEventListener('click', checkSize);
 document.querySelector('#save').addEventListener('click', saveSettings);
