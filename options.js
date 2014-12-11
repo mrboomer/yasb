@@ -24,21 +24,26 @@
  */
 
 /*jslint devel: true, sloppy: true */
-/*globals saveSettings, restoreSettings, saveValue, loadValue, saveState, loadState */
+/*globals chrome, saveSettings, restoreSettings, saveValue, loadValue, saveState, loadState */
 
 // Disable the "Save" button when a shoe size selecion has not been made.
 function checkSize() {
-    if (document.getElementById("size").value == "")
+    if (document.getElementById("size").value === "") {
         document.getElementById("save").disabled = true;
-    else
+    } else {
         document.getElementById("save").disabled = false;
+    }
 }
 
 function saveSettings() {
     
     saveValue("size");
     saveState("checkout");
-
+    
+    chrome.runtime.sendMessage({iconColor: ""}, function (response) {
+        response.setColor();
+    });
+    
     // Alert user if the option to automatically redirect to checkout is enabled.
 	if (document.getElementById("checkout").checked) {
 		alert("Shoe size updated.\nYou may now begin shopping.\n\nWhen shoes get added to cart, you will automatically be redirected to CHECKOUT.");

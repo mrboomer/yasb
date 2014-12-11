@@ -28,47 +28,52 @@
 
 var displayAuth,
     settings;
-var borderToggle = document.querySelector('li');
+var displayToggle = document.querySelector('li');
 var cursorToggle = document.querySelector('a');
-var displayToggle = document.querySelector('li:last-of-type');
+var settingsText = document.querySelector('li:last-of-type > a');
+var settingsToggle = document.querySelector('li:last-of-type');
 
 // If activated, display menu, item text, and color accordingly.
-function setMenu(activated) {
+function setMenu(activated, sizeSelected) {
 
-	if (activated) {
-		displayAuth.innerHTML = 'Enabled';
-		displayAuth.style.color = 'green';
-        borderToggle.style.border = 'none'; // Remove button interface.
-        cursorToggle.style.cursor = 'default';
-
-	} else {
-		displayAuth.innerHTML = 'Disabled';
-		displayAuth.style.color = 'red'; // Display text in red. Better UI.
-        displayToggle.style.display = 'none'; // Hide 'Settings'.
-	}
+    if (activated) {
+        if (sizeSelected) {
+            displayAuth.innerHTML = 'Enabled';
+            displayAuth.style.color = 'green';
+            displayToggle.style.border = 'none'; // Remove button interface.
+            cursorToggle.style.cursor = 'default';
+        } else {
+            displayToggle.style.display = 'none'; // Hide 'Enabled/Disabled' button
+            settingsText.innerHTML = 'Select Size';
+            settingsText.style.color = 'rgb(180, 180, 0)';
+        }
+    } else {
+        displayAuth.innerHTML = 'Disabled';
+        displayAuth.style.color = 'red';
+        settingsToggle.style.display = 'none'; // Hide 'Settings'
+    }
 }
 
 // Dynamically modify menu.
 document.addEventListener('DOMContentLoaded', function () {
 
-	chrome.extension.sendMessage({isActivated: ""}, function (response) {
-		setMenu(response.activated);
-	});
+    chrome.extension.sendMessage({isActivated: ""}, function (response) {
+        setMenu(response.activated, response.checkSize);
+    });
 
-	displayAuth = document.getElementById('toggle');
-	settings = document.getElementById('settings');
+    displayAuth = document.getElementById('toggle');
+    settings = document.getElementById('settings');
 
     // "Enabled/Disabled" button actions.
-	displayAuth.onclick = function () {
+    displayAuth.onclick = function () {
         window.close(); // TODO/BUG: ONLY close popup if it displays "Disabled" and is clicked.
-		chrome.extension.sendMessage({displayAuth: ""}, function (response) {
-			setMenu(response.activated);
-		});
-	};
+        chrome.extension.sendMessage({displayAuth: ""}, function (response) {
+            setMenu(response.activated, response.checkSize);
+        });
+    };
 
     // "Settings" button actions.
-	settings.onclick = function () {
-		chrome.tabs.create({ url: chrome.extension.getURL("options.html") });
-	};
-
+    settings.onclick = function () {
+        chrome.tabs.create({ url: chrome.extension.getURL("options.html") });
+    };
 });

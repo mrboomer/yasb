@@ -24,7 +24,7 @@
  */
 
 /*jslint devel: true, sloppy: true */
-/*globals requestKey, validKey, chrome */
+/*globals requestKey, validKey, sizeSelected, setIconColor, chrome */
 
 var enabled = true;
 var activationKey = "yasb"; // Update this key to value desired.
@@ -49,8 +49,8 @@ function requestKey() {
 	} else if (userKey) {
         
 		// Check if user key is valid.
-		if (userKey === activationKey) {
-            chrome.browserAction.setBadgeBackgroundColor({color: [0, 128, 0, 100]});
+		if (validKey()) {
+            setIconColor();
 			alert("YASB has been activated successfully.");
 			chrome.tabs.create({ url: chrome.extension.getURL("options.html") });
 		} else {
@@ -67,16 +67,36 @@ function validKey() {
 	return localStorage.activationKey === activationKey;
 }
 
+// Check if shoe size has been selected
+function sizeSelected() {
+    if (localStorage.size === undefined || localStorage.size === "") {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+// When activated, set icon color depending if shoe size has been selected.
+function setIconColor() {
+    if (validKey() && sizeSelected()) {
+        chrome.browserAction.setBadgeBackgroundColor({color: [0, 128, 0, 100]});
+    } else {
+        chrome.browserAction.setBadgeBackgroundColor({color: [180, 180, 0, 100]});
+    }
+}
+
 // Listen for toolbar menu actions.
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
     
     // Check to see if YASB has been activated to adjust toolbar icon's color.
 	if (request.isActivated !== undefined) {
 		if (validKey()) {
-            sendResponse({activated: enabled});
-            chrome.browserAction.setBadgeBackgroundColor({color: [0, 128, 0, 100]});
+            setIconColor();
+            sendResponse({activated: enabled,
+                          checkSize: sizeSelected()});
 		} else {
-			sendResponse({activated: !enabled});
+			sendResponse({activated: !enabled,
+                          checkSize: sizeSelected()});
 		}
 	}
 
@@ -87,24 +107,27 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
         if (!validKey()) {
             requestKey();
             if (!validKey()) {
-                sendResponse({activated: !enabled});
+                sendResponse({activated: !enabled,
+                              checkSize: sizeSelected()});
             } else {
-                sendResponse({activated: enabled});
+                setIconColor();
+                sendResponse({activated: enabled,
+                              checkSize: sizeSelected()});
             }
         }
-        
-        // TODO: Make this button user-friendly. (Checks if user has selected shoe size)
-        /*
-        else if (localStorage.size === undefined) {
-            sendResponse({activated: enabled});
-            alert("Please select your shoe size in the settings page.");
-            chrome.tabs.create({ url: chrome.extension.getURL("options.html") });
-        }
-        */
     }
 
     if (request.localStorage !== undefined) {
         sendResponse({localStorage: localStorage});
+    }
+    
+    if (request.activate !== undefined) {
+        sendResponse({checkKey: validKey(),
+                      checkSize: sizeSelected()});
+    }
+    
+    if (request.iconColor !== undefined) {
+        sendResponse({setColor: setIconColor()});
     }
     
 });
