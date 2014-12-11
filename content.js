@@ -37,7 +37,7 @@ chrome.runtime.sendMessage({activate: ""}, function (response) {
                 footlocker;
 
             // Retrieve settings.
-            chrome.extension.sendMessage({localStorage: ""}, function (response) {
+            chrome.runtime.sendMessage({localStorage: ""}, function (response) {
                 var localStorage = response.localStorage;
                 shoeSize = localStorage.size;
                 continueCheckout = localStorage.checkout;

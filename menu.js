@@ -57,7 +57,7 @@ function setMenu(activated, sizeSelected) {
 // Dynamically modify menu.
 document.addEventListener('DOMContentLoaded', function () {
 
-    chrome.extension.sendMessage({isActivated: ""}, function (response) {
+    chrome.runtime.sendMessage({isActivated: ""}, function (response) {
         setMenu(response.activated, response.checkSize);
     });
 
@@ -66,14 +66,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // "Enabled/Disabled" button actions.
     displayAuth.onclick = function () {
-        window.close(); // TODO/BUG: ONLY close popup if it displays "Disabled" and is clicked.
-        chrome.extension.sendMessage({displayAuth: ""}, function (response) {
+        
+        chrome.runtime.sendMessage({activate: ""}, function (response) {
+            if (!response.checkKey) {
+                window.close();
+            }
+        });
+        
+        chrome.runtime.sendMessage({displayAuth: ""}, function (response) {
             setMenu(response.activated, response.checkSize);
         });
     };
 
     // "Settings" button actions.
     settings.onclick = function () {
-        chrome.tabs.create({ url: chrome.extension.getURL("options.html") });
+        chrome.tabs.create({ url: chrome.runtime.getURL("options.html") });
     };
 });

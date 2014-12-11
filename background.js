@@ -52,7 +52,7 @@ function requestKey() {
 		if (validKey()) {
             setIconColor();
 			alert("YASB has been activated successfully.");
-			chrome.tabs.create({ url: chrome.extension.getURL("options.html") });
+			chrome.tabs.create({ url: chrome.runtime.getURL("options.html") });
 		} else {
 			alert("Invalid activation key.");
 			requestKey();
@@ -86,7 +86,7 @@ function setIconColor() {
 }
 
 // Listen for toolbar menu actions.
-chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     
     // Check to see if YASB has been activated to adjust toolbar icon's color.
 	if (request.isActivated !== undefined) {
