@@ -26,15 +26,27 @@
 /*jslint devel: true, sloppy: true */
 /*globals requestKey, validKey, sizeSelected, setIconColor, chrome */
 
+// Set client variable to either "personal", or "consumer".
+// 
+// personal: No activation key required. Personal use option.
+//
+// consumer: Activation key required. When this value is set, YASB is set up
+//             to be sold.
+//
+// Update variable "activationKey" to value desired if client is set to "consumer".
+var client = "personal";
+var activationKey = "yasb";
+
 var enabled = true;
-var activationKey = "yasb"; // Update this key to value desired.
 
 // Distinguishable badge name for icon.
 chrome.browserAction.setBadgeText({text: "BOT"});
 
-// If YASB has been activated, switch 'BOT' icon to green.
-if (validKey()) {
+// If YASB is supposed to be active, switch 'BOT' icon to green.
+if (validKey() && client === "consumer") {
     chrome.browserAction.setBadgeBackgroundColor({color: [0, 128, 0, 100]});
+} else if (client === "personal") {
+    setIconColor();
 }
 
 // Asks user for key.
@@ -47,7 +59,7 @@ function requestKey() {
 	if (userKey === "") {
 		requestKey();
 	} else if (userKey) {
-        
+
 		// Check if user key is valid.
 		if (validKey()) {
             setIconColor();
@@ -78,7 +90,7 @@ function sizeSelected() {
 
 // When activated, set icon color depending if shoe size has been selected.
 function setIconColor() {
-    if (validKey() && sizeSelected()) {
+    if ((validKey() && sizeSelected()) || (client === "personal" && sizeSelected())) {
         chrome.browserAction.setBadgeBackgroundColor({color: [0, 128, 0, 100]});
     } else {
         chrome.browserAction.setBadgeBackgroundColor({color: [180, 180, 0, 100]});
@@ -87,47 +99,51 @@ function setIconColor() {
 
 // Listen for toolbar menu actions.
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    
+
     // Check to see if YASB has been activated to adjust toolbar icon's color.
 	if (request.isActivated !== undefined) {
-		if (validKey()) {
+		if ((validKey() && client === "consumer") || client === "personal") {
             setIconColor();
             sendResponse({activated: enabled,
-                          checkSize: sizeSelected()});
+                          checkSize: sizeSelected(),
+                          client: client});
 		} else {
 			sendResponse({activated: !enabled,
-                          checkSize: sizeSelected()});
+                          checkSize: sizeSelected(),
+                          client: client});
 		}
 	}
 
 	// Adjust the way "#toggle" behaves.
 	if (request.displayAuth !== undefined) {
-        
+
         // Set text/colors accordingly.
-        if (!validKey()) {
+        if ((validKey() && client === "consumer") || client === "personal") {
+            setIconColor();
+            sendResponse({activated: enabled,
+                          checkSize: sizeSelected(),
+                          client: client});
+        } else if (!validKey() && client === "consumer") {
             requestKey();
             if (!validKey()) {
                 sendResponse({activated: !enabled,
-                              checkSize: sizeSelected()});
-            } else {
-                setIconColor();
-                sendResponse({activated: enabled,
-                              checkSize: sizeSelected()});
+                              checkSize: sizeSelected(),
+                              client: client});
             }
         }
+    }
+
+    if (request.isActive !== undefined) {
+        sendResponse({checkKey: validKey(),
+                      checkSize: sizeSelected(),
+                      client: client});
+    }
+
+    if (request.iconColor !== undefined) {
+        sendResponse({setColor: setIconColor()});
     }
 
     if (request.localStorage !== undefined) {
         sendResponse({localStorage: localStorage});
     }
-    
-    if (request.activate !== undefined) {
-        sendResponse({checkKey: validKey(),
-                      checkSize: sizeSelected()});
-    }
-    
-    if (request.iconColor !== undefined) {
-        sendResponse({setColor: setIconColor()});
-    }
-    
 });

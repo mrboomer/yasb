@@ -26,9 +26,9 @@
 /*jslint devel: true, sloppy: true */
 /*globals $, validKey, chrome, footlocker */
 
-chrome.runtime.sendMessage({activate: ""}, function (response) {
+chrome.runtime.sendMessage({isActive: ""}, function (response) {
     
-    if (response.checkKey && response.checkSize) {
+    if ((response.checkKey && response.checkSize) || (response.client === "personal" && response.checkSize)) {
         window.addEventListener('load', function () {
 
             var shoeSize,

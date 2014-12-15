@@ -33,10 +33,10 @@ var cursorToggle = document.querySelector('a');
 var settingsText = document.querySelector('li:last-of-type > a');
 var settingsToggle = document.querySelector('li:last-of-type');
 
-// If activated, display menu, item text, and color accordingly.
-function setMenu(activated, sizeSelected) {
+// If YASB is active, display menu, item text, and color accordingly.
+function setMenu(activated, sizeSelected, client) {
 
-    if (activated) {
+    if ((activated && client === "consumer") || client === "individual") {
         if (sizeSelected) {
             displayAuth.innerHTML = 'Enabled';
             displayAuth.style.color = 'green';
@@ -58,7 +58,7 @@ function setMenu(activated, sizeSelected) {
 document.addEventListener('DOMContentLoaded', function () {
 
     chrome.runtime.sendMessage({isActivated: ""}, function (response) {
-        setMenu(response.activated, response.checkSize);
+        setMenu(response.activated, response.checkSize, response.client);
     });
 
     displayAuth = document.getElementById('toggle');
@@ -66,15 +66,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // "Enabled/Disabled" button actions.
     displayAuth.onclick = function () {
-        
-        chrome.runtime.sendMessage({activate: ""}, function (response) {
-            if (!response.checkKey) {
+
+        chrome.runtime.sendMessage({isActive: ""}, function (response) {
+            if (!response.checkKey && response.client === "consumer") {
                 window.close();
             }
         });
         
         chrome.runtime.sendMessage({displayAuth: ""}, function (response) {
-            setMenu(response.activated, response.checkSize);
+            setMenu(response.activated, response.checkSize, response.client);
         });
     };
 
