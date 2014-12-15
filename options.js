@@ -80,6 +80,11 @@ function loadState(id) {
     }
 }
 
+// Display extension version number.
+var manifest = chrome.runtime.getManifest(),
+    version = document.querySelector('span');
+version.innerHTML = manifest.version;
+
 document.addEventListener('DOMContentLoaded', restoreSettings);
 document.querySelector('#size').addEventListener('click', checkSize);
 document.querySelector('#save').addEventListener('click', saveSettings);
