@@ -36,7 +36,7 @@ var settingsToggle = document.querySelector('li:last-of-type');
 // If YASB is active, display menu, item text, and color accordingly.
 function setMenu(activated, sizeSelected, client) {
 
-    if ((activated && client === "consumer") || client === "individual") {
+    if ((activated && client === "consumer") || client === "personal") {
         if (sizeSelected) {
             displayAuth.innerHTML = 'Enabled';
             displayAuth.style.color = 'green';
