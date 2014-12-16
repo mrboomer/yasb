@@ -25,7 +25,7 @@
 
 {
   "name": "Yet Another Shoe Bot",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "manifest_version": 2,
   "description": "This tool assists to automatically add shoes to the shopping cart as soon as the item page has loaded.",
   "background": {
