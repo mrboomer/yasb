@@ -1,7 +1,7 @@
 <!--
 YASB - Yet Another Shoe Bot
 
-Copyright (c) 2014-2015 Daniel Escobedo.
+Copyright (c) 2014-2016 Daniel Escobedo.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,61 +21,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="../../favicon.ico">
-    <title>Yet Another Shoe Bot: Settings</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-          padding-top: 40px;
-          padding-bottom: 40px;
-          background-color: #eee;
-        }
-        .settings {
-          max-width: 330px;
-          padding: 15px;
-          margin: 0 auto;
-        }
-        .settings .heading,
-        .settings .checkbox {
-          margin-bottom: 10px;
-        }
-        .settings .form-control {
-          position: relative;
-          height: auto;
-          -webkit-box-sizing: border-box;
-             -moz-box-sizing: border-box;
-                  box-sizing: border-box;
-          padding: 10px;
-          font-size: 16px;
-          margin-bottom: 10px;
-        }
-        .settings .form-control:focus {
-          z-index: 2;
-        }
-        .footer {
-          display: block;
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          height: 60px;
-          background-color: #f5f5f5;
-        }
-        .footer .text-muted {
-          margin: 20px 0;
-        }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="settings">
-        <h2 class="heading">YASB Settings</h2>
-        <select id="size" class="form-control" style="text-align: right;">
-        <option value>Shoe Size</option>
+<head>
+  <meta charset="utf-8">
+  <title>Yet Another Shoe Bot: Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+  <link rel="stylesheet" href="css/options.css">
+</head>
+<body>
+  <header>
+    <h1 class="header center blue-text">Yet Another Shoe Bot</h1>
+  </header>
+  <main class="container">
+    <div class="row center">
+      <img class="responsive-img" src="img/yasb-128.png">
+    </div>
+    <div class="row center">
+      <h5 class="header col s12 offset-m1 m10 offset-l2 l8 light description"></h5>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 offset-m2 m8 offset-l3 l6">
+        <select id="shoe-size">
+          <option value="" disabled selected>Select Your Size</option>
           <option value="03.5">3.5</option>
           <option value="04.0">4.0</option>
           <option value="04.5">4.5</option>
@@ -102,19 +70,30 @@ THE SOFTWARE.
           <option value="17.0">17.0</option>
           <option value="18.0">18.0</option>
         </select>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" id="checkout"> Continue to <strong>CheckOut</strong> after shoe is added to cart.
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" id="save">Save</button>
+        <label>Shoe Size</label>
       </div>
     </div>
-    <footer class="footer">
-      <div class="container">
-          <p class="text-muted"><strong>Yet Another Shoe Bot.</strong> Version <span>#</span></p>
+    <div class="row">
+      <div class="col s12 offset-m2 m8 offset-l3 l6">
+        <input type="checkbox" id="to-checkout" />
+        <label for="to-checkout">Proceed to website's <strong>CheckOut</strong> after shoe is added to cart.</label>
       </div>
-    </footer>
-  <script src="options.js"></script>
-  </body>
+    </div>
+    <div class="row center">
+      <div class="col s12 offset-m2 m8 offset-l3 l6">
+        <a id="save" class="waves-effect waves-light btn-large">Save</a>
+      </div>
+    </div>
+  </main>
+  <footer class="page-footer blue darken-1">
+    <div class="footer-copyright blue darken-2">
+      <div class="container">
+        <p><strong>Yet Another Shoe Bot.</strong> Version <span>#</span></p>
+      </div>
+    </div>
+  </footer>
+  <script src="js/vendor/jquery-2.2.1.min.js"></script>
+  <script src="js/vendor/materialize.min.js"></script>
+  <script src="js/options.js"></script>
+</body>
 </html>

@@ -23,31 +23,21 @@
  *
  */
 
-{
-  "manifest_version": 2,
-  "name": "Yet Another Shoe Bot",
-  "version": "0.3.0",
-  "description": "Automatically add shoes on a page to your shopping cart as soon as the site allows you to buy the shoes.",
-  "icons": {
-    "64": "img/yasb-64.png",
-    "128": "img/yasb-128.png",
-    "512": "img/yasb-512.png"
-  },
-  "browser_action": {
-    "default_title": "Yet Another Shoe Bot",
-    "default_popup": "popup.html"
-  },
-  "background": {
-    "persistent": false,
-    "scripts": ["js/background.js"]
-  },
-  "content_scripts": [
-    {
-      "matches": ["*://www.footlocker.com/*"],
-      "js": ["js/vendor/jquery-2.2.1.min.js","js/content.js"]
-    }
-  ],
-  "minimum_chrome_version": "48",
-  "options_page": "options.html",
-  "permissions": ["storage","*://www.footlocker.com/*"]
+/*global chrome */
+
+// Initialialize Variables, Badge Name and Color
+chrome.storage.local.set({'yasbActive': true, 'sizeSelected': false});
+chrome.browserAction.setBadgeText({ text: "BOT" });
+setBadgeColor('#ffeb3b');
+
+// Set icon color
+function setBadgeColor(badgeColor) {
+  chrome.browserAction.setBadgeBackgroundColor({ color: badgeColor });
 }
+
+// Popup Listener
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.badgeColor) {
+    setBadgeColor(request.badgeColor);
+  }
+});

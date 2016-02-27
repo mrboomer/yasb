@@ -1,0 +1,14 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #eee;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer p {
+  margin: 0 auto;
+}

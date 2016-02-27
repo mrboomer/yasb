@@ -1,19 +1,16 @@
 <h1>YASB - Yet Another Shoe Bot</h1>
 
-YASB is a Google Chrome Extension that automatically adds shoes to the shopping cart as soon as the item has loaded on the product page.
+YASB is a Google Chrome Extension that automatically add shoes on a page to the user's shopping cart as soon as the site allows the user to buy the shoes.
 
 --------------------------------------------------------------------
 
 <h2>Features</h2>
 <ul>
-    <li><strong>Supported Platforms:</strong><br>
-        <ul>
-            <li>footlocker.com</li>
-        </ul>
-    </li>
-    <li><strong>Personal or Consumer Use Functionality</strong><br>
-Two versions of YASB can currently be compiled; A personal use version, and a consumer version that can sold. By default it is set for personal use. The interface can be set so that YASB can be sold, requiring an activation key to work. Changing the value of the variable 'client' to "consumer", enables YASB to require an activation key. Changing that same value to "personal" sets YASB to work straight out of the box. The current user activation key is "yasb", but can be changed to anything desired.
-    </li>
+  <li><strong>Supported Websites:</strong><br>
+    <ul>
+      <li>footlocker.com (Not Working - Incomplete Implementation)</li>
+    </ul>
+  </li>
 </ul>
 
 --------------------------------------------------------------------
@@ -29,7 +26,7 @@ Website: http://daniel.escobedo.io
 
 --------------------------------------------------------------------
 
-Copyright (c) 2014-2015 Daniel Escobedo.
+Copyright (c) 2014-2016 Daniel Escobedo.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,7 +1,7 @@
 /*
  * YASB - Yet Another Shoe Bot
  *
- * Copyright (c) 2014-2016 Daniel Escobedo.
+ * Copyright (c) 2014-2015 Daniel Escobedo.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,31 +23,39 @@
  *
  */
 
-{
-  "manifest_version": 2,
-  "name": "Yet Another Shoe Bot",
-  "version": "0.3.0",
-  "description": "Automatically add shoes on a page to your shopping cart as soon as the site allows you to buy the shoes.",
-  "icons": {
-    "64": "img/yasb-64.png",
-    "128": "img/yasb-128.png",
-    "512": "img/yasb-512.png"
-  },
-  "browser_action": {
-    "default_title": "Yet Another Shoe Bot",
-    "default_popup": "popup.html"
-  },
-  "background": {
-    "persistent": false,
-    "scripts": ["js/background.js"]
-  },
-  "content_scripts": [
-    {
-      "matches": ["*://www.footlocker.com/*"],
-      "js": ["js/vendor/jquery-2.2.1.min.js","js/content.js"]
-    }
-  ],
-  "minimum_chrome_version": "48",
-  "options_page": "options.html",
-  "permissions": ["storage","*://www.footlocker.com/*"]
+/*globals $, chrome, window, setInterval, footlocker */
+
+function loadSettings(callback) {
+  chrome.storage.local.get(['yasbActive', 'sizeSelected', 'shoeSize', 'checkout'], function(response) {
+    callback(response);
+  });
 }
+
+function runYasb(response) {
+  if (response.yasbActive && response.sizeSelected) {
+    $(function(){
+      var shoeSize = response.shoeSize,
+          continueCheckout = response.checkout;
+
+      // Footlocker.com
+      var footlockercom = setInterval(function() {
+        var shoeInCart = false;
+
+        if(window.location.href.indexOf("product") > -1) {
+          var $cartWindow = $('#miniAddToCartWrapper');
+
+          if($cartWindow.length) {
+            // Verify if Shoe is in Cart (Via Footlocker's Popup)
+
+          }
+          else if (shoeInCart === false) {
+            // Add Shoe to Cart
+
+          }
+        }
+      }, 1000);
+    });
+  }
+}
+
+loadSettings(runYasb);
