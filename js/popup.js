@@ -71,23 +71,6 @@ function toggle(response) {
   chrome.storage.local.set({'yasbActive': yasbActive});
 }
 
-
-/*
-
-function isSizeSelected(response) {
-  if (response.shoeSize) {
-    setMenu(response.yasbActive, true);
-    chrome.storage.local.set({'sizeSelected': true});
-  }
-  else {
-    setMenu(response.yasbActive, false);
-    chrome.storage.local.set({'sizeSelected': false});
-  }
-}
-
-*/
-
-
 // Toggle YASB
 $yasbButton.click(function() {
   getStorage(toggle);
