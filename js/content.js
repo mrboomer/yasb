@@ -31,29 +31,74 @@ function loadSettings(callback) {
   });
 }
 
+function yasbAlert(message) {
+  var modal = document.createElement('div');
+  modal.setAttribute("class", "remodal-bg");
+  modal.innerHTML = '' +
+    '<div id="yasb" data-remodal-id="modal">' +
+      '<button data-remodal-action="close" class="remodal-close"></button>' +
+      '<img src="' + chrome.extension.getURL("img/yasb-64.png") + '">' +
+      '<h1>YASB Notice</h1>' +
+      '<div id="yasb-message"></div>' +
+    '</div>';
+  $('body').prepend(modal);
+
+  var $messageDiv = $('#yasb-message');
+  switch (message) {
+    case "size-unavailable":
+      $messageDiv.html('<p>This shoe is not available in the size you selected.</p>');
+      break;
+  }
+
+  $('[data-remodal-id=modal]').remodal().open();
+}
+
 function runYasb(response) {
   if (response.yasbActive && response.sizeSelected) {
     $(function(){
       var shoeSize = response.shoeSize,
           continueCheckout = response.checkout;
 
-      // Footlocker.com
-      var footlockercom = setInterval(function() {
-        var shoeInCart = false;
+      // FinishLine.com
+      var finishlinecom = setInterval(function() {
 
         if(window.location.href.indexOf("product") > -1) {
-          var $cartWindow = $('#miniAddToCartWrapper');
+          var $cartWindow = $('#ui-dialog-title-addToCartModal'),
+              strippedShoeSize = shoeSize.replace(/^(0+)/g, ''),
+              $itemSize = $('#productSizes.isShoe .size:contains("' + strippedShoeSize + '")');
 
           if($cartWindow.length) {
-            // Verify if Shoe is in Cart (Via Footlocker's Popup)
+            // Stop Function Call
+            clearInterval(finishlinecom);
 
+            // Continue to Checkout if Selected in Settings
+            if (continueCheckout) {
+              window.location.href = "/store/checkout/cart.jsp";
+            }
+
+            return;
           }
-          else if (shoeInCart === false) {
-            // Add Shoe to Cart
+          else {
+            if ($itemSize.length && !$itemSize.hasClass('unavailable')) {
+              // Size Avaibale - Select Shoe Size
+              $itemSize.click();
 
+              // Add Shoe to Cart
+              $('#buttonAddToCart').click();
+            }
+            else {
+              // Size Unavaibale - Stop YASB
+              clearInterval(finishlinecom);
+
+              // Notify User
+              yasbAlert('size-unavailable');
+
+              return;
+            }
           }
         }
-      }, 1000);
+      }, 250);
+
     });
   }
 }

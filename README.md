@@ -8,7 +8,7 @@ YASB is a Google Chrome Extension that automatically add shoes on a page to the 
 <ul>
   <li><strong>Supported Websites:</strong><br>
     <ul>
-      <li>footlocker.com (Not Working - Incomplete Implementation)</li>
+      <li>finishline.com</li>
     </ul>
   </li>
 </ul>
