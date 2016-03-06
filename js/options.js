@@ -52,8 +52,7 @@ function saveState(response) {
   var shoeSize = $shoeSizeInput.val(),
       checkout = $checkoutInput.val();
   if (shoeSize) {
-    chrome.storage.local.set({'shoeSize': shoeSize});
-    chrome.storage.local.set({'sizeSelected': true});
+    chrome.storage.local.set({'shoeSize': shoeSize, 'sizeSelected': true});
     if (response.yasbActive) { chrome.runtime.sendMessage({badgeColor: '#66bb6a'}); }
   }
   if ($checkoutInput.is(':checked')) {
