@@ -97,6 +97,11 @@ function runYasb(response) {
             }
           }
         }
+        else {
+          // End if not on Product Page
+          clearInterval(finishlinecom);
+          return;
+        }
       }, 250);
 
     });
