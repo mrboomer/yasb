@@ -26,7 +26,7 @@
 {
   "manifest_version": 2,
   "name": "Yet Another Shoe Bot",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Automatically add shoes on a page to your shopping cart as soon as the site allows you to buy the shoes.",
   "icons": {
     "64": "img/yasb-64.png",
