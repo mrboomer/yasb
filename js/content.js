@@ -23,7 +23,7 @@
  *
  */
 
-/*globals $, chrome, window, setInterval, footlocker */
+/* globals $, chrome, window, document, setInterval, clearInterval */
 
 function loadSettings(callback) {
   chrome.storage.local.get(['yasbActive', 'sizeSelected', 'shoeSize', 'checkout'], function(response) {

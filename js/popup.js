@@ -23,7 +23,7 @@
  *
  */
 
-/*global $, chrome*/
+/* global $, chrome*/
 
 var $yasbButton = $('.yasb-toggle'),
     $settingsButton = $('.settings');
