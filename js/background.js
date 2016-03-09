@@ -23,7 +23,7 @@
  *
  */
 
-/*global chrome */
+/* global chrome */
 
 // Initialialize Variables, Badge Name and Color
 chrome.storage.local.set({'yasbActive': true, 'sizeSelected': false});

@@ -14,9 +14,9 @@ YASB is a Google Chrome Extension that automatically add shoes on a page to the 
 </ul>
 
 --------------------------------------------------------------------
-This is the source code distribution of YASB. A compiled 'ready to use' version (.CRX) can be found here:
+This is the source code distribution of YASB. A compiled 'ready to use' version can be found on the Chrome Web Store:
 
-https://github.com/mrboomer/yasb/releases/download/v0.4.0/yasb.crx.zip
+https://chrome.google.com/webstore/detail/yet-another-shoe-bot/fblacoodeipcdfnahcnakjiphkpfcmfg
 
 If you are a developer and want to contribute to YASB, check out the repository at GitHub:
 

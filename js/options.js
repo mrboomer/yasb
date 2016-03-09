@@ -23,7 +23,7 @@
  *
  */
 
-/*global $, chrome, Materialize */
+/* global $, chrome, Materialize */
 
 var $shoeSizeInput = $('#shoe-size'),
     $cartInput = $('#to-cart'),
