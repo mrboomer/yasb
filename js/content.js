@@ -26,7 +26,7 @@
 /*globals $, chrome, window, setInterval, footlocker */
 
 function loadSettings(callback) {
-  chrome.storage.local.get(['yasbActive', 'sizeSelected', 'shoeSize', 'checkout'], function(response) {
+  chrome.storage.local.get(['yasbActive', 'sizeSelected', 'shoeSize', 'cart', 'checkout'], function(response) {
     callback(response);
   });
 }
@@ -57,12 +57,13 @@ function runYasb(response) {
   if (response.yasbActive && response.sizeSelected) {
     $(function(){
       var shoeSize = response.shoeSize,
+          continueCart = response.cart,
           continueCheckout = response.checkout;
 
       // FinishLine.com
       var finishlinecom = setInterval(function() {
 
-        if(window.location.href.indexOf("product") > -1) {
+        if(window.location.href.indexOf('finishline') > -1 && window.location.href.indexOf('product') > -1) {
           var $cartWindow = $('#ui-dialog-title-addToCartModal'),
               strippedShoeSize = shoeSize.replace(/^(0+)/g, ''),
               $itemSize = $('#productSizes.isShoe .size:contains("' + strippedShoeSize + '")');
@@ -71,8 +72,8 @@ function runYasb(response) {
             // Stop Function Call
             clearInterval(finishlinecom);
 
-            // Continue to Checkout if Selected in Settings
-            if (continueCheckout) {
+            // Continue to Cart/Shopping Cart if Selected in Settings
+            if (continueCart || continueCheckout) {
               window.location.href = "/store/checkout/cart.jsp";
             }
 
@@ -97,9 +98,70 @@ function runYasb(response) {
             }
           }
         }
+        else if (window.location.href.indexOf('finishline') > -1 && window.location.href.indexOf('checkout/cart') > -1) {
+          // Stop Function Call
+          clearInterval(finishlinecom);
+
+          // Continue to Checkout if Selected in Settings
+          if (continueCheckout) {
+            $('[name="Checkout"]').click();
+          }
+
+          return;
+        }
         else {
           // End if not on Product Page
           clearInterval(finishlinecom);
+          return;
+        }
+      }, 250);
+
+      // Adidas.com
+      var adidascom = setInterval(function() {
+
+        if(window.location.href.indexOf('adidas') > -1 && $('form[name="addProductForm"]').length) {
+          var $cartWindow = $('.dialog_minicartoverlay'),
+              strippedShoeSize = shoeSize.replace(/^0+/,'').replace(/\.?0*$/,''),
+              $itemSize = $('form[name="addProductForm"] .ffSelectMenuMid > ul > li span:contains("' + strippedShoeSize + '"):first');
+
+          if($cartWindow.length) {
+            // Stop Function Call
+            clearInterval(adidascom);
+
+            // Continue to Cart if Selected in Settings
+            if (continueCart) {
+              window.location.href = "/on/demandware.store/Sites-adidas-US-Site/en_US/Cart-Show";
+            }
+
+            // Continue to Checkout if Selected in Settings
+            if (continueCheckout) {
+              window.location.href = "https://www.adidas.com/us/checkout-start";
+            }
+
+            return;
+          }
+          else {
+            if ($itemSize.length && !$itemSize.hasClass('unavailable')) {
+              // Size Avaibale - Select Shoe Size
+              $itemSize.click();
+
+              // Add Shoe to Cart
+              $('[name="add-to-cart-button"]').click();
+            }
+            else {
+              // Size Unavaibale - Stop YASB
+              clearInterval(adidascom);
+
+              // Notify User
+              yasbAlert('size-unavailable');
+
+              return;
+            }
+          }
+        }
+        else {
+          // End if not on Product Page
+          clearInterval(adidascom);
           return;
         }
       }, 250);

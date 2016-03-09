@@ -26,6 +26,7 @@
 /*global $, chrome, Materialize */
 
 var $shoeSizeInput = $('#shoe-size'),
+    $cartInput = $('#to-cart'),
     $checkoutInput = $('#to-checkout'),
     $saveSettings = $('#save');
 
@@ -50,11 +51,20 @@ function loadState(response) {
 
 function saveState(response) {
   var shoeSize = $shoeSizeInput.val(),
+      cart = $cartInput.val(),
       checkout = $checkoutInput.val();
   if (shoeSize) {
     chrome.storage.local.set({'shoeSize': shoeSize, 'sizeSelected': true});
     if (response.yasbActive) { chrome.runtime.sendMessage({badgeColor: '#66bb6a'}); }
   }
+
+  if ($cartInput.is(':checked')) {
+    chrome.storage.local.set({'cart': true});
+  }
+  else {
+    chrome.storage.local.set({'cart': false});
+  }
+
   if ($checkoutInput.is(':checked')) {
     chrome.storage.local.set({'checkout': true});
   }
@@ -62,6 +72,18 @@ function saveState(response) {
     chrome.storage.local.set({'checkout': false});
   }
 }
+
+$cartInput.change(function() {
+  if (this.checked) {
+    $checkoutInput.prop('checked', false);
+  }
+});
+
+$checkoutInput.change(function() {
+  if (this.checked) {
+    $cartInput.prop('checked', false);
+  }
+});
 
 // Save Settings
 $saveSettings.click(function() {
